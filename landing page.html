@@ -5,133 +5,420 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TATA PLAY - Landing Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            background: #0a0a0a;
         }
 
         header {
-            background-color: #170bf8b0;
-            padding: 20px;
+            background: linear-gradient(135deg, #00c9ff 0%, #0078d4 50%, #005a9e 100%);
+            padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         header img {
             max-height: 50px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
         }
 
         .nav-links a {
-            margin: 0 15px;
             text-decoration: none;
-            color: #333;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            width: 80%;
         }
 
         .hero {
-            background: #e0e0e0 url('banner.jpg') no-repeat center center/cover;
-            padding: 100px 20px;
+            background: linear-gradient(135deg, #0575e6 0%, #021b79 50%, #000428 100%);
+            padding: 150px 20px;
             text-align: center;
-            color: #333;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #00f2fe, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
         }
 
         .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
-        .hero .cta-button {
-            background-color: #ff0000;
+        .cta-button {
+            background: linear-gradient(135deg, #00d4ff, #0078d4);
             color: white;
-            padding: 10px 25px;
+            padding: 18px 45px;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
             text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 120, 212, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.7);
         }
 
         .features {
-            display: flex;
-            justify-content: space-around;
-            padding: 50px 20px;
-            background-color: #f9f9f9;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 100px 50px;
+            background: linear-gradient(135deg, #0a1929 0%, #001e3c 100%);
         }
 
         .feature {
             text-align: center;
-            max-width: 300px;
+            padding: 40px 30px;
+            background: rgba(0, 120, 212, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            animation: fadeInScale 0.8s ease-out both;
         }
 
-        .feature img {
-            max-height: 150px;
-            margin-bottom: 20px;
+        .feature:nth-child(1) { animation-delay: 0.2s; }
+        .feature:nth-child(2) { animation-delay: 0.4s; }
+        .feature:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .feature:hover {
+            transform: translateY(-15px) scale(1.05);
+            background: rgba(0, 120, 212, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
+            border-color: rgba(0, 242, 254, 0.5);
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #00d4ff, #0078d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 120, 212, 0.3);
+        }
+
+        .feature:hover .feature-icon {
+            transform: rotateY(360deg);
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.5);
         }
 
         .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #00f2fe;
+            font-weight: 700;
         }
 
         .feature p {
-            font-size: 1rem;
+            font-size: 1.1rem;
+            color: #b0d4e8;
+            line-height: 1.6;
         }
 
         .coverage {
-            padding: 50px 20px;
+            padding: 100px 50px;
             text-align: center;
-            background-color: #e0e0e0;
-        }
-
-        .coverage img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #003554, #006494, #0582ca);
+            color: #ffffff;
         }
 
         .coverage h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00f2fe, #4facfe, #00c9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .coverage .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
         }
 
-        .coverage .stats div {
-            text-align: center;
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 242, 254, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(0, 242, 254, 0.5);
+        }
+
+        .stat-card h3 {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00f2fe, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        .stat-card p {
+            font-size: 1.3rem;
+            color: #e0f2f7;
+            font-weight: 600;
         }
 
         footer {
-            background-color: #e60f0f;
-            color: rgba(1, 41, 186, 0.745);
+            background: linear-gradient(135deg, #00509d, #003f88);
+            color: #ffffff;
             text-align: center;
-            padding: 20px 0;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, #4facfe, transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
 
         footer p {
-            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
-            .features {
+            header {
+                padding: 20px;
                 flex-direction: column;
-                align-items: center;
+                gap: 20px;
             }
 
-            .coverage .stats {
-                flex-direction: column;
-                align-items: center;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .features {
+                padding: 60px 20px;
+                gap: 30px;
+            }
+
+            .coverage {
+                padding: 60px 20px;
+            }
+
+            .coverage h2 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -139,7 +426,7 @@
 <body>
 
 <header>
-    <img src="tataplaylogo.jpg" alt="TATA PLAY Logo">
+    <img src="data:image/png;base64,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" alt="TATA PLAY Logo">
     <nav class="nav-links">
         <a href="#">Home</a>
         <a href="#">Packages</a>
@@ -149,42 +436,43 @@
 </header>
 
 <section class="hero">
-    <h1>Experience Entertainment Like Never Before</h1>
-    <p>Join TATA PLAY - Your gateway to unlimited entertainment</p>
-    <a href="#" class="cta-button">Get TATA PLAY</a>
+    <div class="hero-content">
+        <h1>Experience Entertainment Like Never Before</h1>
+        <p>Join TATA PLAY - Your gateway to unlimited entertainment</p>
+        <a href="#" class="cta-button">Get TATA PLAY</a>
+    </div>
 </section>
 
 <section class="features">
     <div class="feature">
-        <img src="Variety.jpg" alt="Variety of Channels">
+        <div class="feature-icon">📺</div>
         <h3>Variety of Channels</h3>
-        <p>Access hundreds of channels across various genres.</p>
+        <p>Access hundreds of channels across various genres, from sports to movies to news.</p>
     </div>
     <div class="feature">
-        <img src="package.jpg" alt="Affordable Packages">
+        <div class="feature-icon">💰</div>
         <h3>Affordable Packages</h3>
-        <p>Choose from a range of budget-friendly plans.</p>
+        <p>Choose from a range of budget-friendly plans tailored to your needs.</p>
     </div>
     <div class="feature">
-        <img src="multi.jpg" alt="Multi-Device Support">
+        <div class="feature-icon">📱</div>
         <h3>Multi-Device Support</h3>
-        <p>Watch on TV, mobile, or your favorite streaming device.</p>
+        <p>Watch on TV, mobile, tablet, or your favorite streaming device anytime, anywhere.</p>
     </div>
 </section>
 
 <section class="coverage">
     <h2>Available Nationwide</h2>
-    <img src="map.jpg" alt="India Map">
     <div class="stats">
-        <div>
+        <div class="stat-card">
             <h3>500+</h3>
             <p>Cities Covered</p>
         </div>
-        <div>
+        <div class="stat-card">
             <h3>200+</h3>
             <p>Channels Offered</p>
         </div>
-        <div>
+        <div class="stat-card">
             <h3>24/7</h3>
             <p>Customer Support</p>
         </div>
