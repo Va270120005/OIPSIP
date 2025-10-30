@@ -5,57 +5,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temperature Converter</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #000; /* Black background */
-            color: gold; /* Gold font color */
-        }
-        .converter, .current-info {
-            background-color: #222; /* Dark background for elements */
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: #FFD700;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            margin-bottom: 20px;
-            width: 300px;
+            position: relative;
+            overflow: hidden;
         }
-        .converter input, .converter select, .converter button {
-            margin-bottom: 10px;
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
+            bottom: -200px;
+            left: -200px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid gold; /* Gold border */
-            background-color: #444; /* Darker background for inputs and buttons */
-            color: gold; /* Gold font color */
+            max-width: 420px;
         }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .current-info {
+            background: rgba(34, 34, 34, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .current-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .current-info div {
+            margin: 8px 0;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+        }
+
+        #current-time {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .converter {
+            background: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .converter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .converter input, .converter select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(68, 68, 68, 0.8);
+            color: #FFD700;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .converter input:focus, .converter select:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .converter input::placeholder {
+            color: rgba(255, 215, 0, 0.5);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
         .converter button {
-            background-color: gold; /* Gold button background */
-            color: #000; /* Black text on buttons */
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
             font-weight: bold;
+            font-size: 1.05em;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+
+        .converter button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .converter button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
         .converter button:hover {
-            background-color: #e6ac00; /* Darker gold on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
         }
-        .result, .current-info {
-            margin-top: 10px;
+
+        .converter button:active {
+            transform: translateY(-1px);
+        }
+
+        .converter button.reset-btn {
+            background: linear-gradient(135deg, #555 0%, #333 100%);
+            color: #FFD700;
+        }
+
+        .converter button.reset-btn:hover {
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
             font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: fadeIn 0.5s ease;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .pulsing-dot {
-            margin: 20px auto;
-            width: 16px;
-            height: 16px;
-            background-color: gold; /* Gold color for pulsing dot */
+            margin: 25px auto 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             border-radius: 50%;
             animation: pulse 1s infinite;
             display: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
         }
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -70,40 +251,78 @@
                 opacity: 1;
             }
         }
+
+        .unit-label {
+            font-size: 0.85em;
+            color: rgba(255, 215, 0, 0.7);
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .converter {
+                padding: 25px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="current-info">
-    <div id="current-time"></div>
-    <div id="current-location-temp"></div>
-</div>
+<div class="container">
+    <h1>🌡️ Temperature Converter</h1>
 
-<div class="converter">
-    <input type="text" id="temperature" placeholder="Enter temperature">
-    <select id="fromUnit">
-        <option value="Celsius">Celsius</option>
-        <option value="Fahrenheit">Fahrenheit</option>
-        <option value="Kelvin">Kelvin</option>
-    </select>
-    <select id="toUnit">
-        <option value="Celsius">Celsius</option>
-        <option value="Fahrenheit">Fahrenheit</option>
-        <option value="Kelvin">Kelvin</option>
-    </select>
-    <button onclick="convertTemperature()">Convert</button>
-    <button onclick="resetFields()">Reset</button>
-    <div id="spinner" class="pulsing-dot"></div>
-    <div id="result" class="result"></div>
+    <div class="current-info">
+        <div id="current-time"></div>
+        <div id="current-location-temp"></div>
+    </div>
+
+    <div class="converter">
+        <div class="input-group">
+            <label class="unit-label">Temperature Value</label>
+            <input type="text" id="temperature" placeholder="Enter temperature">
+        </div>
+        
+        <div class="input-group">
+            <label class="unit-label">From Unit</label>
+            <select id="fromUnit">
+                <option value="Celsius">Celsius (°C)</option>
+                <option value="Fahrenheit">Fahrenheit (°F)</option>
+                <option value="Kelvin">Kelvin (K)</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label class="unit-label">To Unit</label>
+            <select id="toUnit">
+                <option value="Fahrenheit">Fahrenheit (°F)</option>
+                <option value="Celsius">Celsius (°C)</option>
+                <option value="Kelvin">Kelvin (K)</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button onclick="convertTemperature()">Convert</button>
+            <button class="reset-btn" onclick="resetFields()">Reset</button>
+        </div>
+
+        <div id="spinner" class="pulsing-dot"></div>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
 </div>
 
 <script>
     function updateTime() {
         const currentTimeDiv = document.getElementById('current-time');
         const now = new Date();
-        currentTimeDiv.textContent = `Current Time: ${now.toLocaleTimeString()}`;
+        currentTimeDiv.textContent = `⏰ ${now.toLocaleTimeString()}`;
     }
     setInterval(updateTime, 1000);
+    updateTime();
 
     function getCurrentLocationTemperature() {
         const locationTempDiv = document.getElementById('current-location-temp');
@@ -121,14 +340,16 @@
                     .then(data => {
                         const temperature = data.main.temp;
                         const locationName = data.name;
-                        locationTempDiv.textContent = `Current Temperature in ${locationName}: ${temperature.toFixed(1)} °C`;
+                        locationTempDiv.textContent = `📍 ${locationName}: ${temperature.toFixed(1)} °C`;
                     })
                     .catch(error => {
-                        locationTempDiv.textContent = 'Unable to retrieve weather data';
+                        locationTempDiv.textContent = '📍 Unable to retrieve weather data';
                     });
+            }, error => {
+                locationTempDiv.textContent = '📍 Location access denied';
             });
         } else {
-            locationTempDiv.textContent = 'Geolocation is not supported by this browser';
+            locationTempDiv.textContent = '📍 Geolocation not supported';
         }
     }
 
@@ -143,12 +364,13 @@
 
         const temperature = parseFloat(tempInput);
         if (isNaN(temperature)) {
-            resultDiv.textContent = 'Please enter a valid number';
+            resultDiv.style.display = 'flex';
+            resultDiv.textContent = '⚠️ Please enter a valid number';
             return;
         }
 
         spinner.style.display = 'block';
-        resultDiv.textContent = '';
+        resultDiv.style.display = 'none';
 
         setTimeout(() => {
             let celsius;
@@ -172,17 +394,27 @@
             }
 
             spinner.style.display = 'none';
-            resultDiv.textContent = `Converted Temperature: ${convertedTemp.toFixed(2)} ${toUnit}`;
+            resultDiv.style.display = 'flex';
+            
+            const unitSymbol = toUnit === 'Celsius' ? '°C' : toUnit === 'Fahrenheit' ? '°F' : 'K';
+            resultDiv.textContent = `✨ ${convertedTemp.toFixed(2)} ${unitSymbol}`;
         }, 1000);
     }
 
     function resetFields() {
         document.getElementById('temperature').value = '';
         document.getElementById('fromUnit').value = 'Celsius';
-        document.getElementById('toUnit').value = 'Celsius';
+        document.getElementById('toUnit').value = 'Fahrenheit';
+        document.getElementById('result').style.display = 'none';
         document.getElementById('result').textContent = '';
         document.getElementById('spinner').style.display = 'none';
     }
+
+    document.getElementById('temperature').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            convertTemperature();
+        }
+    });
 </script>
 
 </body>
